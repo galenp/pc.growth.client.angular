@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>PC.Growth - Unit Testing</title>
+     <link data-require="jasmine" data-semver="2.2.1" rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.2.1/jasmine.css" />
+    <script data-require="json2" data-semver="0.2" src="http://cdn.jsdelivr.net/json2/0.2/json2.js"></script>
+    <script data-require="jasmine" data-semver="2.2.1" src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.2.1/jasmine.min.js"></script>
+    <script data-require="jasmine" data-semver="2.2.1" src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.2.1/jasmine-html.js"></script>
+    <script data-require="jasmine@*" data-semver="2.2.1" src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.2.1/boot.js"></script>
+    <script data-require="angular.js" data-semver="1.4.0-rc.2" src="http://code.angularjs.org/1.4.0-rc.2/angular.min.js"></script>
+    <script data-require="angular-mocks" data-semver="1.4.0-rc.2" src="http://code.angularjs.org/1.4.0-rc.2/angular-mocks.js"></script>
+
+    <script src="../dist/pc.growth.angular.js"></script>
+
+    <script src="../spec/PostCodeGrowth.spec.js"></script>
+    <!-- bootstraps Jasmine -->
+</head>
+<style>
+body {
+    background-color: white;
+    padding: 0;
+    margin: 8px;
+}
+.jasmine_reporter {
+    background-color: #eeeeee;
+    padding: 0;
+    margin: 0;
+}
+</style>
+
+<script>
+    angular.module('appTesting', ['pc.growth']);
+</script>
+
+<body ng-app="appTesting">
+    <div id="HTMLReporter" class="jasmine_reporter"></div>
+</body>
+
+</html>

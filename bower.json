@@ -1,0 +1,33 @@
+{
+    "name": "propertycompass.growth",
+    "version": "0.0.0",
+    "authors": [
+        "galenp <galen.parker@gmail.com>"
+    ],
+    "description": "UI angular component for the growth Property Compass growth API",
+    "keywords": [
+        "property",
+        "compass",
+        "growth"
+    ],
+    "homepage": "https://github.com/galenp/PC.Component.Growth",
+    "main": [
+        "dist/propertycompass.growth.angular.js"
+    ],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "spec",
+        "docs",
+        "src",
+        "index.html",
+        "Gulpfile.js",
+        "package.json"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "angular": "~1.x"
+    }
+}

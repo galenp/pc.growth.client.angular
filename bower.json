@@ -4,7 +4,7 @@
     "authors": [
         "galenp <galen.parker@gmail.com>"
     ],
-    "description": "UI angular component for the growth Property Compass growth API",
+    "description": "UI angular service for the Property Compass growth API",
     "keywords": [
         "property",
         "compass",

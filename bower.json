@@ -1,10 +1,10 @@
 {
-    "name": "propertycompass.growth",
+    "name": "propertycompass.growth.angular",
     "version": "0.0.0",
     "authors": [
         "galenp <galen.parker@gmail.com>"
     ],
-    "description": "UI angular service for the Property Compass growth API",
+    "description": "Angular service for the Property Compass growth API",
     "keywords": [
         "property",
         "compass",

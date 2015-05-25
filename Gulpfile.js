@@ -56,8 +56,6 @@ gulp.task('compress-js', ['js'], function() {
         .pipe(gulp.dest(distdir))
 });
 
-gulp.task('package'. ['build'])
-
 
 gulp.task('bower', ['js']);
 gulp.task('compress', ['compress-js']);

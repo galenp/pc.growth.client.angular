@@ -8,41 +8,45 @@
         return {
             query: _query,
             bestPerforming: _bestPerforming
+        };
+
+    function _bestPerforming(year, orderBy, orderByDirection, state) {
+        if (sortList.indexOf(orderBy) === -1) {
+            throw new Error('Invalid orderBy specified, only "Pop", "PGrowth", "HGrowth" and "UGrowth" allowed.');
         }
 
-        function _bestPerforming(year, orderBy, orderByDirection, state) {
-            if (state) {
-                filter += 'and State eq \'' + state + '\'';
-            }
-
-            if (!orderByDirection) {
-                orderByDirection = 'desc';
-            }
-
-            var filter = 'YearEnding eq ' + year,
-                params = {
-                    $filter: filter,
-                    $orderby: orderBy + ' ' + orderByDirection
-                }
-
-            return _query(params);
+        if (!orderByDirection) {
+            orderByDirection = 'desc';
         }
 
-        function _query(params) {
-            var deferred = $q.defer(),
-                url = options.baseUrl;
+        var filter = 'YearEnding eq ' + year,
+            params = {
+                $filter: filter,
+                $orderby: orderBy + ' ' + orderByDirection
+            };
 
-            $http.get(url, {
-                params: params
-            }).success(function(data) {
-                deferred.resolve(data);
-            }).error(function(data) {
-                deferred.reject(data)
-            })
-
-            return deferred.promise;
+        if (state) {
+            params.$filter += ' and State eq \'' + state + '\'';
         }
+
+        return _query(params);
     }
+
+    function _query(params) {
+        var deferred = $q.defer(),
+            url = options.baseUrl;
+
+        $http.get(url, {
+            params: params
+        }).success(function(data) {
+            deferred.resolve(data);
+        }).error(function(data) {
+            deferred.reject(data)
+        });
+
+        return deferred.promise;
+    }
+}
 
     angular
         .module('pc.growth')

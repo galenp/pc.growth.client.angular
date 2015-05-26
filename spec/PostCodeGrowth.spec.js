@@ -112,11 +112,19 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
 
         describe('for year(2012), orderBy(PGrowth), orderByDirection(desc) and state(WA)', function () {
             it('should generate the correct queryString', function(){
-                var url = growthOptions.baseUrl + "?filter=YearEnding+eq+2012+and+State+eq+'WA'&$orderby=PGrowth+desc";
+                var url = growthOptions.baseUrl + "?$filter=YearEnding+eq+2012+and+State+eq+'WA'&$orderby=PGrowth+desc";
                 $httpBackend.expectGET(url).respond(sampleData);
                 postCodeGrowth.bestPerforming(2012, 'PGrowth', 'desc', 'WA')
                 $httpBackend.flush();
                 expect(true).toBeTruthy();
+            })
+        });
+
+        describe('for year(2014) and orderBy(INVALID)', function() {
+            it('should generate an exception', function() {
+                expect(function() {
+                    postCodeGrowth.bestPerforming(2014, 'INVALID');
+                }).toThrow(new Error('Invalid orderBy specified, only "Pop", "PGrowth", "HGrowth" and "UGrowth" allowed.'));
             })
         });
     });

@@ -37,7 +37,7 @@
     "disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
-    "requireMultipleVarDecl": "onevar",
+    "requireMultipleVarDecl": true,
     "requireBlocksOnNewline": true,
     "disallowQuotedKeysInObjects": "allButReserved",
     "disallowSpaceAfterObjectKeys": true,

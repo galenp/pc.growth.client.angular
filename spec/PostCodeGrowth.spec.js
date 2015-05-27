@@ -19,22 +19,6 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
         "uGrowth": 1.44,
         "pGrowth": 2.06,
         "pop": 10054
-    }, {
-        "postCode": "3191",
-        "yearEnding": 2008,
-        "state": "NSW",
-        "hGrowth": 1.44,
-        "uGrowth": 7.44,
-        "pGrowth": 1.53,
-        "pop": 9358
-    }, {
-        "postCode": "3192",
-        "yearEnding": 2008,
-        "state": "QLD",
-        "hGrowth": 1.19,
-        "uGrowth": 6.85,
-        "pGrowth": 0.84,
-        "pop": 20599
     }];
 
     beforeEach(function() {
@@ -63,7 +47,7 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
             $httpBackend.expectGET(url).respond(sampleData);
 
             //when
-            var returnedPromise = postCodeGrowth.query();
+            var returnedPromise = postCodeGrowth.query(url);
             var result;
             returnedPromise.then(function(response) {
                 result = response;
@@ -76,25 +60,16 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
         });
 
         describe('when providing query params', function() {
-            it('should return a filtered array of postcodes', function() {
+            it('it should generate the correct url', function() {
                 //given
                 var url = growthOptions.baseUrl + "?$filter=State+eq+'WA'"
                 var params = {
                     '$filter': "State eq 'WA'"
                 }
-                var filteredData = sampleData.filter(function(pc) { return pc.state === 'WA'; });
-
-                $httpBackend.expectGET(url).respond(filteredData);
-
-                //when
-                var result;
-                postCodeGrowth.query(params).then(function(response) {
-                    result = response;
-                })
-
-                //then
+                $httpBackend.expectGET(url).respond(true);
+                postCodeGrowth.query(growthOptions.baseUrl, params);
                 $httpBackend.flush();
-                expect(result).toEqual(filteredData);
+                expect(true).toBeTruthy();
             });
         });
     });
@@ -103,7 +78,7 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
         describe('for year(2014), orderBy(Pop) and orderByDirection(asc)', function() {
             it('should generate the correct queryString', function() {
                 var url = growthOptions.baseUrl + "?$filter=YearEnding+eq+2014&$orderby=Pop+asc"
-                $httpBackend.expectGET(url).respond(sampleData);
+                $httpBackend.expectGET(url).respond(true);
                 postCodeGrowth.bestPerforming(2014, 'Pop', 'asc');
                 $httpBackend.flush();
                 expect(true).toBeTruthy();
@@ -113,7 +88,7 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
         describe('for year(2012), orderBy(PGrowth), orderByDirection(desc) and state(WA)', function () {
             it('should generate the correct queryString', function(){
                 var url = growthOptions.baseUrl + "?$filter=YearEnding+eq+2012+and+State+eq+'WA'&$orderby=PGrowth+desc";
-                $httpBackend.expectGET(url).respond(sampleData);
+                $httpBackend.expectGET(url).respond(true);
                 postCodeGrowth.bestPerforming(2012, 'PGrowth', 'desc', 'WA')
                 $httpBackend.flush();
                 expect(true).toBeTruthy();
@@ -125,6 +100,27 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
                 expect(function() {
                     postCodeGrowth.bestPerforming(2014, 'INVALID');
                 }).toThrow(new Error('Invalid orderBy specified, only "Pop", "PGrowth", "HGrowth" and "UGrowth" allowed.'));
+            })
+        });
+    });
+
+    describe('bestOverTime()', function () {
+        describe('for orderBy(avPGrowth)', function() {
+            it('should generate the correct queryString', function() {
+                var url = growthOptions.baseUrl + "/average" + "?$orderby=avPGrowth+desc";
+                $httpBackend.expectGET(url).respond(true);
+                postCodeGrowth.bestOverTime('avPGrowth');
+                $httpBackend.flush();
+                expect(true).toBeTruthy();
+            })
+        });
+        describe('for orderBy(avHGrowth), orderByDirection(asc) and state(NSW)', function() {
+            it('should generate the correct queryString', function() {
+                var url = growthOptions.baseUrl + "/average" + "?$filter=State+eq+'NSW'&$orderby=avPGrowth+asc";
+                $httpBackend.expectGET(url).respond(true);
+                postCodeGrowth.bestOverTime('avPGrowth', 'asc', 'NSW');
+                $httpBackend.flush();
+                expect(true).toBeTruthy();
             })
         });
     });

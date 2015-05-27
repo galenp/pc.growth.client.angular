@@ -4,49 +4,76 @@
     PostCodeGrowth.$inject = ['$http', '$q', 'growthOptions'];
 
     function PostCodeGrowth($http, $q, options) {
-        var sortList = ['Pop', 'PGrowth', 'HGrowth', 'UGrowth', ''];
         return {
             query: _query,
-            bestPerforming: _bestPerforming
+            bestPerforming: _bestPerforming,
+            bestOverTime: _bestOverTime
         };
 
-    function _bestPerforming(year, orderBy, orderByDirection, state) {
-        if (sortList.indexOf(orderBy) === -1) {
-            throw new Error('Invalid orderBy specified, only "Pop", "PGrowth", "HGrowth" and "UGrowth" allowed.');
+        function _bestOverTime(orderBy, orderByDirection, state) {
+            var sortList = ['avPGrowth', 'avHGrowth', 'avUGrowth', ''],
+                url = options.baseUrl + '/average',
+                filter = undefined;
+
+            if (sortList.indexOf(orderBy) === -1) {
+                throw new Error('Invalid orderBy specified, only "avPGrowth", "avHGrowth" and "avUGrowth" allowed.');
+            }
+
+            if (!orderByDirection) {
+                orderByDirection = 'desc';
+            }
+
+            if (state) {
+                filter = 'State eq \'' + state + '\'';
+            }
+
+            var params = {
+                    $filter: filter,
+                    $orderby: orderBy + ' ' + orderByDirection
+                };
+
+            return _query(url, params);
         }
 
-        if (!orderByDirection) {
-            orderByDirection = 'desc';
+        function _bestPerforming(year, orderBy, orderByDirection, state) {
+            var sortList = ['Pop', 'PGrowth', 'HGrowth', 'UGrowth', ''],
+                url = options.baseUrl;
+
+            if (sortList.indexOf(orderBy) === -1) {
+                throw new Error('Invalid orderBy specified, only "Pop", "PGrowth", "HGrowth" and "UGrowth" allowed.');
+            }
+
+            if (!orderByDirection) {
+                orderByDirection = 'desc';
+            }
+
+            var filter = 'YearEnding eq ' + year,
+                params = {
+                    $filter: filter,
+                    $orderby: orderBy + ' ' + orderByDirection
+                };
+
+            if (state) {
+                params.$filter += ' and State eq \'' + state + '\'';
+            }
+
+            return _query(url, params);
         }
 
-        var filter = 'YearEnding eq ' + year,
-            params = {
-                $filter: filter,
-                $orderby: orderBy + ' ' + orderByDirection
-            };
+        function _query(url, params) {
+            var deferred = $q.defer();
 
-        if (state) {
-            params.$filter += ' and State eq \'' + state + '\'';
+            $http.get(url, {
+                params: params
+            }).success(function(data) {
+                deferred.resolve(data);
+            }).error(function(data) {
+                deferred.reject(data)
+            });
+
+            return deferred.promise;
         }
-
-        return _query(params);
     }
-
-    function _query(params) {
-        var deferred = $q.defer(),
-            url = options.baseUrl;
-
-        $http.get(url, {
-            params: params
-        }).success(function(data) {
-            deferred.resolve(data);
-        }).error(function(data) {
-            deferred.reject(data)
-        });
-
-        return deferred.promise;
-    }
-}
 
     angular
         .module('pc.growth')

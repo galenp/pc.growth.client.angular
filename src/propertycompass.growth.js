@@ -7,8 +7,33 @@
         return {
             query: _query,
             bestPerforming: _bestPerforming,
-            bestOverTime: _bestOverTime
+            bestOverTime: _bestOverTime,
+            details: _details,
+            detailsOverTime: _detailsOverTime
         };
+
+        function _details(postCode) {
+            var filter = 'PostCode eq ' + postCode,
+                url = options.baseUrl,
+                orderBy = 'YearEnding asc',
+                params = {
+                    $filter: filter,
+                    $orderby: orderBy
+                };
+
+            return _query(url, params);
+        }
+
+        function _detailsOverTime(postCode) {
+            var filter = 'PostCode eq ' + postCode,
+                url = options.baseUrl + '/average',
+                params = {
+                    $filter: filter,
+                    $orderby: 'PostCode asc'
+                };
+
+            return _query(url, params);
+        }
 
         function _bestOverTime(orderBy, orderByDirection, state) {
             var sortList = ['avPGrowth', 'avHGrowth', 'avUGrowth', ''],

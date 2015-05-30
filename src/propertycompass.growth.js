@@ -13,7 +13,7 @@
         };
 
         function _details(postCode) {
-            var filter = 'PostCode eq ' + postCode,
+            var filter = 'PostCode eq \'' + postCode + '\'',
                 url = options.baseUrl,
                 orderBy = 'YearEnding asc',
                 params = {
@@ -25,11 +25,10 @@
         }
 
         function _detailsOverTime(postCode) {
-            var filter = 'PostCode eq ' + postCode,
+            var filter = 'PostCode eq \'' + postCode + '\'',
                 url = options.baseUrl + '/average',
                 params = {
-                    $filter: filter,
-                    $orderby: 'PostCode asc'
+                    $filter: filter
                 };
 
             return _query(url, params);

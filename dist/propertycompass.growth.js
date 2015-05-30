@@ -1,6 +1,6 @@
 /**
  * propertycompass.growth.angular - Angular service for the Property Compass growth API
- * @version v0.0.1
+ * @version v0.0.4
  * @link https://github.com/galenp/PC.Component.Growth
  * @license MIT
  */
@@ -19,7 +19,7 @@
         };
 
         function _details(postCode) {
-            var filter = 'PostCode eq ' + postCode,
+            var filter = 'PostCode eq \'' + postCode + '\'',
                 url = options.baseUrl,
                 orderBy = 'YearEnding asc',
                 params = {
@@ -31,11 +31,10 @@
         }
 
         function _detailsOverTime(postCode) {
-            var filter = 'PostCode eq ' + postCode,
+            var filter = 'PostCode eq \'' + postCode + '\'',
                 url = options.baseUrl + '/average',
                 params = {
-                    $filter: filter,
-                    $orderby: 'PostCode asc'
+                    $filter: filter
                 };
 
             return _query(url, params);

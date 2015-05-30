@@ -128,7 +128,7 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
     describe('details()', function() {
         describe('for details(6438)', function() {
             it('should generate the correct queryString', function() {
-                var url = growthOptions.baseUrl + "?$filter=PostCode+eq+6348&$orderby=YearEnding+asc";
+                var url = growthOptions.baseUrl + "?$filter=PostCode+eq+'6348'&$orderby=YearEnding+asc";
                 $httpBackend.expectGET(url).respond(true);
                 postCodeGrowth.details(6348);
                 $httpBackend.flush();
@@ -140,7 +140,7 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
     describe('detailsOverTime()', function() {
         describe('for detailsOverTime(6438)', function() {
             it('should generate the correct queryString', function() {
-                var url = growthOptions.baseUrl + "/average" + "?$filter=PostCode+eq+6348";
+                var url = growthOptions.baseUrl + "/average" + "?$filter=PostCode+eq+'6348'";
                 $httpBackend.expectGET(url).respond(true);
                 postCodeGrowth.detailsOverTime(6348);
                 $httpBackend.flush();

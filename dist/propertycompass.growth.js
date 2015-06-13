@@ -1,6 +1,6 @@
 /**
  * propertycompass.growth.angular - Angular service for the Property Compass growth API
- * @version v0.0.4
+ * @version v0.0.5
  * @link https://github.com/galenp/PC.Component.Growth
  * @license MIT
  */
@@ -15,7 +15,8 @@
             bestPerforming: _bestPerforming,
             bestOverTime: _bestOverTime,
             details: _details,
-            detailsOverTime: _detailsOverTime
+            detailsOverTime: _detailsOverTime,
+            nearbyOverTime: _nearbyOverTime
         };
 
         function _details(postCode) {
@@ -96,6 +97,27 @@
             $http.get(url, {
                 params: params
             }).success(function(data) {
+                deferred.resolve(data);
+            }).error(function(data) {
+                deferred.reject(data)
+            });
+
+            return deferred.promise;
+        }
+
+        function _nearbyOverTime(nearbyOptions) {
+            var deferred = $q.defer(),
+                url = options.baseUrl + '/nearby/';
+
+            if (nearbyOptions.postCode) {
+                url += nearbyOptions.postCode;
+            }
+
+            else if (nearbyOptions.lat && nearbyOptions.lng)  {
+                url += '?lat=' + nearbyOptions.lat + '&lng=' + nearbyOptions.lng;
+            }
+
+            $http.get(url).success(function(data) {
                 deferred.resolve(data);
             }).error(function(data) {
                 deferred.reject(data)

@@ -149,4 +149,32 @@ describe("PostCodeGrowth service UNIT TESTS", function() {
         })
     });
 
+    describe('nearbyOverTime()', function() {
+        describe('for nearbyOverTime({postCode: 6438})', function() {
+            it('should generate the correct queryString', function() {
+                var url = growthOptions.baseUrl + "/nearby/6438";
+                $httpBackend.expectGET(url).respond(true);
+                var options = {
+                    postCode: 6438
+                };
+                postCodeGrowth.nearbyOverTime(options);
+                $httpBackend.flush();
+                expect(true).toBeTruthy();
+            })
+        });
+        describe('for nearbyOverTime({lat: -32.4765947, lng: 115.75918079999997})', function() {
+            it('should generate the correct queryString', function() {
+                var url = growthOptions.baseUrl + "/nearby/?lat=-32.4765947&lng=115.75918079999997";
+                $httpBackend.expectGET(url).respond(true);
+                var options = {
+                    lat: -32.4765947,
+                    lng: 115.75918079999997
+                };
+                postCodeGrowth.nearbyOverTime(options);
+                $httpBackend.flush();
+                expect(true).toBeTruthy();
+            })
+        })
+    });
+
 });

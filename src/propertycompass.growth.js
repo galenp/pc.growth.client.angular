@@ -125,6 +125,6 @@
         .module('pc.growth')
         .service('PostCodeGrowth', PostCodeGrowth)
         .value('growthOptions', {
-            baseUrl: 'https://development.propertycompass.com.au:22001/growth/postcode'
+            baseUrl: 'https://api.propertycompass.com.au/growth/postcode'
         })
 })();

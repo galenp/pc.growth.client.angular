@@ -1,6 +1,6 @@
 /**
  * propertycompass.growth.angular - Angular service for the Property Compass growth API
- * @version v0.0.5
+ * @version v0.1.0
  * @link https://github.com/galenp/PC.Component.Growth
  * @license MIT
  */
@@ -131,6 +131,6 @@
         .module('pc.growth')
         .service('PostCodeGrowth', PostCodeGrowth)
         .value('growthOptions', {
-            baseUrl: 'https://development.propertycompass.com.au:22001/growth/postcode'
+            baseUrl: 'https://api.propertycompass.com.au/growth/postcode'
         })
 })();
